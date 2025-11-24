@@ -1,13 +1,11 @@
-[app]
-title = Bitcoin Toolkit
-package.name = bitcointoolkit
-package.domain = com.yourname
+[app] title = Bitcoin Toolkit package.name = bitcointoolkit package.domain = com.yourname
 
-source.dir = .
-source.include_exts = py,png,jpg,kv,atlas
+source.dir = . source.include_exts = py,png,jpg,kv,atlas
 
-version = 1.0
-requirements = python3,kivy,requests,ecdsa,mnemonic
+version = 1.0 requirements = python3,kivy,requests,ecdsa,mnemonic android.api = 34 android.minapi = 23 android.build_tools_version = 34.0.0 android.ndk = 25b
 
-[buildozer]
-log_level = 2
+Tăng compatibility
+
+fullscreen = 0 orientation = portrait
+
+[buildozer] log_level = 2 warn_on_root = 1 android.accept_sdk_license = True
