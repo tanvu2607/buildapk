@@ -38,7 +38,7 @@ jobs:
       - name: Update Android SDK Manager and install Build-Tools
         run: |
           sdkmanager --update
-          echo "y" | sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-34"
+          echo "y" | sdkmanager "build-tools;36.1.0" "platform-tools" "platforms;android-34"
           echo "y" | sdkmanager --licenses
 
       - name: Build APK

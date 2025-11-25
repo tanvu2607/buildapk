@@ -11,7 +11,7 @@ requirements = python3,kivy,requests,ecdsa,mnemonic,base58,segwit_addr,pysocks
 
 android.api = 34
 android.minapi = 23
-android.build_tools_version = 34.0.0
+android.build_tools_version = 36.1.0
 android.ndk = 25b
 android.archs = arm64-v8a, armeabi-v7a
 
