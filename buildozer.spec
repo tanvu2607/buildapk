@@ -1,4 +1,6 @@
-[app] title = Bitcoin Toolkit package.name = bitcointoolkit package.domain = com.yourname
+[app]
+title = Bitcoin Toolkit
+package.name = bitcointoolkit package.domain = com.yourname
 
 source.dir = . source.include_exts = py,png,jpg,kv,atlas
 
