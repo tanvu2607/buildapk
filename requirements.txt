@@ -2,3 +2,6 @@ kivy
 requests
 ecdsa
 mnemonic
+base58
+segwit_addr
+pysocks

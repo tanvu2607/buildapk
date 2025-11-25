@@ -535,4 +535,4 @@ class BitcoinApp(App):
                 privkey_bytes = bytes.fromhex(privkey_hex)
                 sk = SigningKey.from_string(privkey_bytes, curve=SECP256k1)
                 vk = sk.get_verifying_key()
-                x_bytes = vk.pubke
+                x_bytes = vk.pubkey.point.x().to_bytes(32, 'big')
