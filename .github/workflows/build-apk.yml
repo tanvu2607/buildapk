@@ -20,31 +20,16 @@ jobs:
           sudo apt update
           sudo apt install -y build-essential git zip libffi-dev python3-dev openjdk-8-jdk
 
+      - name: Setup Android SDK and NDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 34
+          build-tools: 36.1.0
+          ndk: 25b
+          
       - name: Install Python dependencies
         run: |
           pip install cython buildozer
-
-      - name: Setup Android SDK
-        run: |
-          ANDROID_HOME=$HOME/android-sdk
-          mkdir -p $ANDROID_HOME
-          mkdir -p $ANDROID_HOME/cmdline-tools
-          wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -O android-cmdline-tools.zip
-          unzip android-cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
-          mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
-          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
-
-      - name: Update Android SDK Manager and install Build-Tools
-        run: |
-          mkdir -p $ANDROID_HOME/licenses/
-          echo "8933bad161af4178b11852feb1004ce7c1185781" > $ANDROID_HOME/licenses/android-sdk-license
-          echo "84831b6ac948270ed364a65ffc1297e058ae0327" > $ANDROID_HOME/licenses/android-sdk-preview-license
-          echo "d56f5187479451eabf01fee7ceb1570ffc8bf17e" > $ANDROID_HOME/licenses/android-googletv-license
-          echo "2433d77d63b5f8bff6a8c316a0fac1546ace0478" > $ANDROID_HOME/licenses/android-wear-sdk-license
-          echo "428cd6d1c5f7d266d2890f75727b9c0302b1a65d" > $ANDROID_HOME/licenses/google-gdk-license
-          sdkmanager --update
-          sdkmanager "build-tools;36.1.0" "platform-tools" "platforms;android-34"
 
       - name: Build APK
         run: |
