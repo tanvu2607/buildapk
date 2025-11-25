@@ -37,9 +37,14 @@ jobs:
 
       - name: Update Android SDK Manager and install Build-Tools
         run: |
+          mkdir -p $ANDROID_HOME/licenses/
+          echo "8933bad161af4178b11852feb1004ce7c1185781" > $ANDROID_HOME/licenses/android-sdk-license
+          echo "84831b6ac948270ed364a65ffc1297e058ae0327" > $ANDROID_HOME/licenses/android-sdk-preview-license
+          echo "d56f5187479451eabf01fee7ceb1570ffc8bf17e" > $ANDROID_HOME/licenses/android-googletv-license
+          echo "2433d77d63b5f8bff6a8c316a0fac1546ace0478" > $ANDROID_HOME/licenses/android-wear-sdk-license
+          echo "428cd6d1c5f7d266d2890f75727b9c0302b1a65d" > $ANDROID_HOME/licenses/google-gdk-license
           sdkmanager --update
-          echo "y" | sdkmanager "build-tools;36.1.0" "platform-tools" "platforms;android-34"
-          echo "y" | sdkmanager --licenses
+          sdkmanager "build-tools;36.1.0" "platform-tools" "platforms;android-34"
 
       - name: Build APK
         run: |
