@@ -18,7 +18,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential git zip libffi-dev python3-dev openjdk-8-jdk
+          sudo apt install -y build-essential git zip libffi-dev python3-dev openjdk-8-jdk wget unzip
 
       - name: Setup Android SDK and NDK
         uses: android-actions/setup-android@v2
@@ -27,6 +27,14 @@ jobs:
           build-tools: 36.1.0
           ndk: 25b
           
+      - name: Install Android build-tools 34.0.0 (include AIDL)
+        run: |
+          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip
+          unzip -q cmdline-tools.zip
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+          mv cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "build-tools;34.0.0" "platform-tools" "platforms;android-34"
+
       - name: Install Python dependencies
         run: |
           pip install cython buildozer
