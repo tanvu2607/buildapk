@@ -18,22 +18,37 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential git zip libffi-dev python3-dev openjdk-8-jdk wget unzip
+          sudo apt install -y build-essential git zip libffi-dev python3-dev openjdk-11-jdk wget unzip
 
-      - name: Setup Android SDK and NDK
-        uses: android-actions/setup-android@v2
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          api-level: 34
-          build-tools: 36.1.0
-          ndk: 25b
-          
-      - name: Install Android build-tools 34.0.0 (include AIDL)
+          distribution: temurin
+          java-version: '11'
+
+      - name: Install Android SDK commandline tools and Build Tools
         run: |
-          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip
+          set -e
+          export ANDROID_SDK_ROOT="$HOME/.buildozer/android/platform/android-sdk"
+          export ANDROID_HOME="$ANDROID_SDK_ROOT"
+          mkdir -p "$ANDROID_SDK_ROOT"
+
+          cd /tmp
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip
           unzip -q cmdline-tools.zip
-          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
-          mv cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
-          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "build-tools;34.0.0" "platform-tools" "platforms;android-34"
+          mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
+          mv cmdline-tools "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+
+          export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+
+          yes | sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --licenses >/dev/null
+          sdkmanager --sdk_root="$ANDROID_SDK_ROOT" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+          echo "AIDL executable at:"
+          find "$ANDROID_SDK_ROOT/build-tools" -name aidl
+        shell: bash
+        env:
+          JAVA_HOME: /opt/hostedtoolcache/Java_Temurin_jdk/11*/x64
 
       - name: Install Python dependencies
         run: |
